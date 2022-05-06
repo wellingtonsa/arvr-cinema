@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const { v4: uuidv4 } = require('uuid');
 const screenshot = require('screenshot-desktop');
 
-var socket = require('socket.io-client')('http://192.168.0.100:5000');
+var socket = require('socket.io-client')('https://192.168.1.10:5000');
 var interval;
 
 function createWindow () {
@@ -44,7 +44,6 @@ ipcMain.on("start-share", function(event, arg) {
             var obj = {};
             obj.room = uuid;
             obj.image = imgStr;
-
             socket.emit("screen-data", JSON.stringify(obj));
         })
     }, 100)

@@ -2,11 +2,33 @@
 <head>
     <title>Codeboard Screecast Viewer</title>
 </head>
-<body style="background: linear-gradient(45deg, #7b0909, #6771b8b8);">
-    <img style="width: 90%; height: 90%; margin-top: 2%; margin-left: 5%"/>
-
+<body style="background: linear-gradient(45deg, #7b0909, #6771b8b8); margin: 0px; overflow: hidden">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" crossorigin="anonymous"></script>
+
+    <a-scene vr-mode-ui="enabled: false;" embedded arjs="debugger-ui-enabled: false;">
+
+        <a-assets>
+            <img id="image" src="https://media-cdn.tripadvisor.com/media/photo-s/1a/dd/6a/f0/paradise-taveuni.jpg"/> 
+        </a-assets>
+
+        <a-marker present="hiro">
+            <a-image 
+                width="1.5"
+                height="1.5"
+                rotation="-90 0 0"
+                position="0 0 0"
+                src="#image"
+            >
+            </a-image>
+        </a-marker>
+
+        <a-entity camera></a-entity>
+
+    </a-scene>
+
     <script>
 
         window.onload = function() {
@@ -16,15 +38,17 @@
                 return;
             }
 
-            socket = io.connect('http://192.168.0.100:5000');
+            socket = io.connect('https://192.168.1.10:5000');
 
             socket.emit("join-message", room);
             socket.on('screen-data', function(message){
+                console.log('screen-data', message);
                 $("img").attr("src", "data:image/png;base64," + message);
-
             })
         }
 
     </script>
+
+  
 </body>
 </html>
